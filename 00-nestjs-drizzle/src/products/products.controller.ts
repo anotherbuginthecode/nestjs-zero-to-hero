@@ -1,6 +1,5 @@
-import { Controller, Get, Post, Body, UsePipes } from '@nestjs/common';
-import { ZodValidationPipe } from 'nestjs-zod';
-import { CreateProductSchema } from './dto/create-product.dto';
+import { Controller, Get, Post, Body, UsePipes, HttpException, HttpStatus, Param } from '@nestjs/common';
+import { CreateProductDto } from './dto/create-product.dto';
 import { ProductsService } from './products.service';
 
 @Controller('products')
@@ -14,15 +13,16 @@ export class ProductsController {
     }
 
     @Get(':id')
-    getOne() {
-        return 'This will return one product';
+    async getOne(@Param() { id }: { id: number }) {
+        return await this.productsService.getProductById(id)
     }
 
-    @UsePipes(ZodValidationPipe)
     @Post()
-    async create(@Body() product: CreateProductSchema) {
-        const newProduct = await this.productsService.addProduct(product);
-        
-        return newProduct;
-    }
+    async create(@Body() productDto: CreateProductDto) {
+        return await this.productsService.addProduct(productDto)
+        .catch((e) => {
+            throw new HttpException({
+                message: e.message
+            }, HttpStatus.BAD_REQUEST)
+    })};
 }

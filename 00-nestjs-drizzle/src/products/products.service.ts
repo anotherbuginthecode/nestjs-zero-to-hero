@@ -12,10 +12,12 @@ export class ProductsService {
         @Inject(PG_CONNECTION) private conn: NodePgDatabase,
     ) {}
 
-    async addProduct(productDto: CreateProductDto): Promise<Product> {
-        const [p] = await this.conn.insert(products).values(productDto).returning();
+    async getProducts(): Promise<Product[]> {
+        const p = await this.conn
+            .select()
+            .from(products)
+            .execute();
         return p;
-
     }
 
     async getProductById(id: number): Promise<Product> {
@@ -31,4 +33,29 @@ export class ProductsService {
         }
         return p;
     }
+
+    async addProduct(productDto: CreateProductDto): Promise<Product> {
+        const [p] = await this.conn.insert(products).values(productDto).returning();
+        return p;
+    }
+
+    async updateProduct(id: number, productDto: CreateProductDto): Promise<Product> {
+        const [p] = await this.conn.update(products).set(productDto).where(eq(products.id, id)).returning();
+        if (!p) {
+            throw new HttpException({
+                message: 'Product not found'
+            }, 404);
+        }
+        return p;
+    }
+
+    async deleteProduct(id: number): Promise<void> {
+        const [p] = await this.conn.delete(products).where(eq(products.id, id)).returning();
+        if (!p) {
+            throw new HttpException({
+                message: 'Product not found'
+            }, 404);
+        }
+    }
+
 }

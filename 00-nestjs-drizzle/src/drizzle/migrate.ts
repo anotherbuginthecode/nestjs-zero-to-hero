@@ -9,6 +9,14 @@ import * as allSchema from './schemas/schema';
 dotenv.config();
 
 (async () => {
+    /**
+     * Creates a new PostgreSQL connection pool using the provided connection string from the environment variable `DATABASE_URL`.
+     * 
+     * @constant
+     * @type {pg.Pool}
+     * @default
+     * @see {@link https://node-postgres.com/features/pooling|pg.Pool}
+     */
     const pool = new pg.Pool({
         connectionString: process.env.DATABASE_URL,
     });

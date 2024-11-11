@@ -19,7 +19,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "drizzle:generate": "drizzle-kit generate --config ./src/drizzle/drizzle.config.ts",
-    "drizzle:push": "drizzle-kit push --config ./src/drizzle/drizzle.config.ts",
+    "drizzle:migrate": "drizzle-kit push --config ./src/drizzle/drizzle.config.ts",
     "drizzle:seed": "ts-node ./src/drizzle/db.seed.ts"
   },
   "dependencies": {

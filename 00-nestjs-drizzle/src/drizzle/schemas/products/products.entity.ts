@@ -2,6 +2,18 @@ import { integer, serial, pgTable, text, boolean, doublePrecision } from "drizzl
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 
 
+/**
+ * Represents the 'products' table in the database.
+ * 
+ * @table products
+ * 
+ * @property {number} id - The primary key for the product, auto-incremented.
+ * @property {string} name - The unique name of the product, cannot be null.
+ * @property {string} [description] - The description of the product, optional.
+ * @property {number} price - The price of the product, cannot be null.
+ * @property {number} quantity - The quantity of the product in stock, defaults to 0, cannot be null.
+ * @property {boolean} in_stock - Indicates if the product is in stock, defaults to true, cannot be null.
+ */
 export const products = pgTable('products', {
     id: serial().primaryKey(),
     name: text('name').unique().notNull(),

@@ -1,4 +1,4 @@
-import { integer, serial, pgTable, text, boolean, doublePrecision } from "drizzle-orm/pg-core";
+import { integer, serial, pgTable, text, boolean, doublePrecision, timestamp } from "drizzle-orm/pg-core";
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 
 
@@ -21,6 +21,7 @@ export const products = pgTable('products', {
     price: doublePrecision('price').notNull(),
     quantity: integer('quantity').notNull().default(0),
     in_stock: boolean('in_stock').notNull().default(true),
+    created_at: timestamp('created_at').defaultNow().notNull()
 });
 
 export type ProductEntity = InferSelectModel<typeof products>;
